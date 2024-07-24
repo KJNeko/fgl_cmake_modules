@@ -3,6 +3,8 @@
 function(PreSetup)
 	PlatformPreSetup()
 	CompilerPreSetup()
+
+	set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/dependencies" ${CMAKE_MODULE_PATH} PARENT_SCOPE)
 endfunction()
 
 function(PostSetup)
