@@ -1,5 +1,7 @@
-		function(AppendFlag FLAG_TEXT)
-			list(APPEND FGL_WARNINGS ${FLAG_TEXT} PARENT_SCOPE)
+		function(AppendWarningFlag FLAG_TEXT)
+			set(LIST ${FGL_WARNINGS})
+			list(APPEND LIST ${FLAG_TEXT})
+			set(FGL_WARNINGS ${LIST} PARENT_SCOPE)
 		endfunction()
 
 		function(SetFGLFlags TARGET)
