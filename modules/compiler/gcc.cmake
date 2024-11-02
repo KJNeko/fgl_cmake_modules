@@ -117,7 +117,7 @@
 				endif ()
 
 				# Safe for debug
-				list(APPEND FGL_SHARED_OPTIMIZATION_FLAGS "-fno-rtti")
+				#list(APPEND FGL_SHARED_OPTIMIZATION_FLAGS "-fno-rtti")
 
 				list(APPEND FGL_GENERAL_OPTIMIZATION_FLAGS "-fdevirtualize-at-ltrans")
 				list(APPEND FGL_GENERAL_OPTIMIZATION_FLAGS "-fdevirtualize-speculatively")
