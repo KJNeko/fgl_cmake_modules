@@ -13,9 +13,11 @@ function(PostSetup)
 endfunction()
 
 function(AddFGLExecutable NAME SRC_SOURCES_LOCATION)
-	file(GLOB_RECURSE CPP_SOURCES ${SRC_SOURCES_LOCATION}/**.cpp)
-	file(GLOB_RECURSE HPP_SOURCES ${SRC_SOURCES_LOCATION}/**.hpp)
-	add_executable(${NAME} ${CPP_SOURCES} ${HPP_SOURCES})
+	file(GLOB_RECURSE SOURCES
+			${SRC_SOURCES_LOCATION}/**.cpp
+			${SRC_SOURCES_LOCATION}/**.hpp
+	)
+	add_executable(${NAME} ${SOURCES})
 	target_include_directories(${NAME} PRIVATE ${SRC_SOURCES_LOCATION})
 	set_target_properties(${NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 	SetFGLFlags(${NAME})
