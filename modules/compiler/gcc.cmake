@@ -117,7 +117,7 @@
 					if (NOT DEFINED USE_WERROR OR NOT USE_WERROR)
 						list(APPEND FGL_CONFIG "-Wanalyzer-too-complex")
 					endif ()
-				else ()
+				elseif (NOT UPPER_BUILD_TYPE STREQUAL "DEBUG")
 					list(APPEND FGL_CONFIG "-flto=auto")
 				endif ()
 
