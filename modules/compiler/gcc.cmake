@@ -112,12 +112,18 @@
 
 				string(TOUPPER ${CMAKE_BUILD_TYPE} UPPER_BUILD_TYPE)
 
-				if (DEFINED STATIC_ANALYSIS AND STATIC_ANALYSIS AND UPPER_BUILD_TYPE STREQUAL "DEBUG")
-					list(APPEND FGL_CONFIG "-fanalyzer")
-					if (NOT DEFINED USE_WERROR OR NOT USE_WERROR)
-						list(APPEND FGL_CONFIG "-Wanalyzer-too-complex")
-					endif ()
-				elseif (NOT UPPER_BUILD_TYPE STREQUAL "DEBUG")
+				if (NOT DEFINED STATIC_ANAYLSIS)
+					set(STATIC_ANYLSIS 1)
+				endif ()
+
+
+				#				if (STATIC_ANALYSIS EQUAL 1 AND UPPER_BUILD_TYPE STREQUAL "DEBUG")
+				#					list(APPEND FGL_CONFIG "-fanalyzer")
+				#					if (NOT DEFINED USE_WERROR OR NOT USE_WERROR)
+				#						list(APPEND FGL_CONFIG "-Wanalyzer-too-complex")
+				#					endif ()
+				#				elseif (NOT UPPER_BUILD_TYPE STREQUAL "DEBUG")
+				if (NOT UPPER_BUILD_TYPE STREQUAL "DEBUG")
 					list(APPEND FGL_CONFIG "-flto=auto")
 				endif ()
 
