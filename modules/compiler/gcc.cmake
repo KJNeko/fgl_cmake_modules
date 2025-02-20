@@ -8,6 +8,8 @@
 
 				# Generic warnings.
 				#set(FGL_WARNINGS "-Wall;-Wundef;-Wextra;-Wpedantic")
+
+
 				AppendWarningFlag("-Wall")
 				AppendWarningFlag("-Wundef")
 				AppendWarningFlag("-Wextra")
@@ -107,12 +109,32 @@
 				AppendWarningFlag("-fdiagnostics-path-format=inline-events")
 
 				list(APPEND FGL_CONFIG "-fconcepts-diagnostics-depth=8")
-				list(APPEND FGL_CONFIG "-flto=auto")
+
+				string(TOUPPER ${CMAKE_BUILD_TYPE} UPPER_BUILD_TYPE)
+
+				if (NOT DEFINED STATIC_ANAYLSIS)
+					set(STATIC_ANYLSIS 1)
+				endif ()
+
+
+				#				if (STATIC_ANALYSIS EQUAL 1 AND UPPER_BUILD_TYPE STREQUAL "DEBUG")
+				#					list(APPEND FGL_CONFIG "-fanalyzer")
+				#					if (NOT DEFINED USE_WERROR OR NOT USE_WERROR)
+				#						list(APPEND FGL_CONFIG "-Wanalyzer-too-complex")
+				#					endif ()
+				#				elseif (NOT UPPER_BUILD_TYPE STREQUAL "DEBUG")
+				if (NOT UPPER_BUILD_TYPE STREQUAL "DEBUG")
+					list(APPEND FGL_CONFIG "-flto=auto")
+				endif ()
+
 				list(APPEND FGL_CONFIG "-ftree-vectorize")
 				list(APPEND FGL_CONFIG "-fmax-errors=6")
 
 
-				if (DEFINED USE_WERROR)
+				#AppendWarningFlag("-fanalyzer")
+				#AppendWarningFlag("-Wanalyzer-too-complex")
+
+				if (DEFINED USE_WERROR AND USE_WERROR)
 					list(APPEND FGL_CONFIG "-Werror")
 				endif ()
 
@@ -131,7 +153,6 @@
 				list(APPEND FGL_SHARED_DEBUG "-gdwarf-4")
 				list(APPEND FGL_SHARED_DEBUG "-fvar-tracking-assignments")
 
-				string(TOUPPER ${CMAKE_BUILD_TYPE} UPPER_BUILD_TYPE)
 
 				# Optimization flags
 				set(FGL_FINAL_FLAGS_RELEASE "-O2;-s;${FGL_GENERAL_OPTIMIZATION_FLAGS};${FGL_SHARED_OPTIMIZATION_FLAGS}") # System agonistc flags
@@ -144,9 +165,6 @@
 				list(APPEND FGL_FLAGS ${FGL_WARNINGS})
 
 				list(APPEND FGL_CHILD_FLAGS ${FGL_FINAL_FLAGS_${UPPER_BUILD_TYPE}})
-
-				message(" -- FGL_FLAGS: ${FGL_FLAGS}")
-				message("-- FGL_CHILD_FLAGS: ${FGL_CHILD_FLAGS}")
 
 				# Final sets
 				#set(FGL_FLAGS "${FGL_CONFIG};${FGL_FINAL_FLAGS_${UPPER_BUILD_TYPE}};${FGL_WARNINGS}") # Flags for our shit
