@@ -19,9 +19,6 @@ function(AddFGLExecutable NAME SRC_SOURCES_LOCATION)
 	file(GLOB_RECURSE M_SOURCES CONFIGURE_DEPENDS
 			${SRC_SOURCES_LOCATION}/**.cppm)
 
-	#	add_library(${NAME}_MODULES)
-	#	target_sources(${NAME}_MODULES PUBLIC FILE_SET CXX_MODULES FILES ${M_SOURCES})
-
 	file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS
 			${SRC_SOURCES_LOCATION}/**.cpp
 			${SRC_SOURCES_LOCATION}/**.hpp
@@ -37,13 +34,6 @@ function(AddFGLExecutable NAME SRC_SOURCES_LOCATION)
 	target_link_libraries(${NAME} PRIVATE ${NAME}_MODULES)
 	set_target_properties(${NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 	SetFGLFlags(${NAME})
-endfunction()
-
-function(LinkLibs NAME ACCESS LIB)
-	#	if (TARGET ${NAME}_MODULES)
-	#		target_link_libraries(${NAME}_MODULES ${ACCESS} ${LIB})
-	#	endif ()
-	target_link_libraries(${NAME} ${ACCESS} ${LIB})
 endfunction()
 
 function(AddFGLLibrary NAME MODE SRC_SOURCES_LOCATION INCLUDE_SOURCES_LOCATION)
