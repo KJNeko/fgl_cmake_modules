@@ -31,7 +31,6 @@ function(AddFGLExecutable NAME SRC_SOURCES_LOCATION)
 	target_sources(${NAME} PUBLIC FILE_SET modules TYPE CXX_MODULES FILES ${M_SOURCES})
 
 	target_include_directories(${NAME} PRIVATE ${SRC_SOURCES_LOCATION})
-	target_link_libraries(${NAME} PRIVATE ${NAME}_MODULES)
 	set_target_properties(${NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 	SetFGLFlags(${NAME})
 endfunction()
