@@ -1,4 +1,4 @@
-
+cmake_minimum_required(VERSION 3.28)
 
 function(PreSetup)
 	PlatformPreSetup()
@@ -13,11 +13,23 @@ function(PostSetup)
 endfunction()
 
 function(AddFGLExecutable NAME SRC_SOURCES_LOCATION)
+	set(CMAKE_CXX_STANDARD 23)
+	set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+	file(GLOB_RECURSE M_SOURCES CONFIGURE_DEPENDS
+			${SRC_SOURCES_LOCATION}/**.cppm)
+
 	file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS
 			${SRC_SOURCES_LOCATION}/**.cpp
 			${SRC_SOURCES_LOCATION}/**.hpp
 	)
-	add_executable(${NAME} ${SOURCES})
+
+	message("Compiling ${NAME} WITH ${M_SOURCES} as modules")
+
+	add_executable(${NAME})
+	target_sources(${NAME} PUBLIC ${SOURCES})
+	target_sources(${NAME} PUBLIC FILE_SET modules TYPE CXX_MODULES FILES ${M_SOURCES})
+
 	target_include_directories(${NAME} PRIVATE ${SRC_SOURCES_LOCATION})
 	set_target_properties(${NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 	SetFGLFlags(${NAME})

@@ -129,7 +129,8 @@
 
 				list(APPEND FGL_CONFIG "-ftree-vectorize")
 				list(APPEND FGL_CONFIG "-fmax-errors=6")
-
+				LIST(APPEND FGL_CONFIG "-fmodules-ts")
+				LIST(APPEND FGL_CONFIG "-std=c++23")
 
 				#AppendWarningFlag("-fanalyzer")
 				#AppendWarningFlag("-Wanalyzer-too-complex")
@@ -162,7 +163,7 @@
 
 				list(APPEND FGL_FLAGS ${FGL_CONFIG})
 				list(APPEND FGL_FLAGS ${FGL_FINAL_FLAGS_${UPPER_BUILD_TYPE}})
-				list(APPEND FGL_FLAGS ${FGL_WARNINGS})
+				#				list(APPEND FGL_FLAGS ${FGL_WARNINGS})
 
 				list(APPEND FGL_CHILD_FLAGS ${FGL_FINAL_FLAGS_${UPPER_BUILD_TYPE}})
 
