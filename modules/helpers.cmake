@@ -32,6 +32,8 @@ function(AddFGLExecutable NAME SRC_SOURCES_LOCATION)
 
 	target_include_directories(${NAME} PRIVATE ${SRC_SOURCES_LOCATION})
 	set_target_properties(${NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
+	set_target_properties(${NAME} PROPERTIES CXX_STANDARD 23)
+	set_target_properties(${NAME} PROPERTIES CXX_STANDARD_REQUIRED ON)
 	SetFGLFlags(${NAME})
 endfunction()
 
@@ -42,6 +44,8 @@ function(AddFGLLibrary NAME MODE SRC_SOURCES_LOCATION INCLUDE_SOURCES_LOCATION)
 	add_library(${NAME} ${MODE} ${CPP_SOURCES} ${HPP_SOURCES} ${INCLUDE_SOURCES_LOCATION})
 	target_include_directories(${NAME} PUBLIC ${INCLUDE_SOURCES_LOCATION})
 	target_include_directories(${NAME} PRIVATE ${SRC_SOURCES_LOCATION})
+	set_target_properties(${NAME} PROPERTIES CXX_STANDARD 23)
+	set_target_properties(${NAME} PROPERTIES CXX_STANDARD_REQUIRED ON)
 	SetFGLFlags(${NAME})
 endfunction()
 
