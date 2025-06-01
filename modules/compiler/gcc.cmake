@@ -103,6 +103,9 @@
 				AppendWarningFlag("-Wuse-after-free") #Warns about accessing a value after calling 'free' on it
 				AppendWarningFlag("-Wuseless-cast") #Warns about a cast that is useless.
 
+				AppendWarningFlag("-Wno-non-virtual-dtor")
+
+				AppendWarningFlag("-Wno-terminate") # Disables -Wterminate errors, These are kinda weird and I tend to use throw inside of dtors with the intent of it terminating after. So we'll just silence them.
 
 				# Starting other weird flags
 				AppendWarningFlag("-fdiagnostics-show-template-tree") # Shows the template diagnostic info as a tree instead.
@@ -112,30 +115,29 @@
 
 				string(TOUPPER ${CMAKE_BUILD_TYPE} UPPER_BUILD_TYPE)
 
-				if (NOT DEFINED STATIC_ANAYLSIS)
-					set(STATIC_ANYLSIS 1)
+				if (NOT DEFINED FGL_STATIC_ANALYSIS)
+					set(FGL_STATIC_ANALYSIS 0)
 				endif ()
 
-
-				#				if (STATIC_ANALYSIS EQUAL 1 AND UPPER_BUILD_TYPE STREQUAL "DEBUG")
-				#					list(APPEND FGL_CONFIG "-fanalyzer")
-				#					if (NOT DEFINED USE_WERROR OR NOT USE_WERROR)
-				#						list(APPEND FGL_CONFIG "-Wanalyzer-too-complex")
-				#					endif ()
-				#				elseif (NOT UPPER_BUILD_TYPE STREQUAL "DEBUG")
-				if (NOT UPPER_BUILD_TYPE STREQUAL "DEBUG")
+				if (FGL_STATIC_ANALYSIS EQUAL 1)
+					list(APPEND FGL_CONFIG "-fanalyzer")
+					#					list(APPEND FGL_CONFIG "-Wanalyzer-too-complex")
+					# Breaks more often then it is helpful
+					list(APPEND FGL_CONFIG "-Wno-analyzer-use-of-uninitialized-value")
+					list(APPEND FGL_CONFIG "-Wno-analyzer-malloc-leak")
+				elseif (NOT UPPER_BUILD_TYPE STREQUAL "DEBUG")
 					list(APPEND FGL_CONFIG "-flto=auto")
 				endif ()
 
 				list(APPEND FGL_CONFIG "-ftree-vectorize")
-				list(APPEND FGL_CONFIG "-fmax-errors=6")
+				list(APPEND FGL_CONFIG "-fmax-errors=2")
 				LIST(APPEND FGL_CONFIG "-fmodules-ts")
 				LIST(APPEND FGL_CONFIG "-std=c++23")
 
 				#AppendWarningFlag("-fanalyzer")
 				#AppendWarningFlag("-Wanalyzer-too-complex")
 
-				if (DEFINED USE_WERROR AND USE_WERROR)
+				if (DEFINED FGL_STRICT_WARNINGS AND FGL_STRICT_WARNINGS)
 					list(APPEND FGL_CONFIG "-Werror")
 				endif ()
 
