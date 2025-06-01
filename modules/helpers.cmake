@@ -58,5 +58,5 @@ function(AddFGLChildLibrary NAME MODE SRC_SOURCES_LOCATION INCLUDE_SOURCES_LOCAT
 	add_library(${NAME} ${MODE} ${CPP_SOURCES} ${HPP_SOURCES} ${INCLUDE_SOURCES_LOCATION})
 	target_include_directories(${NAME} PUBLIC ${INCLUDE_SOURCES_LOCATION})
 	target_include_directories(${NAME} PRIVATE ${SRC_SOURCES_LOCATION})
-	#	SetFGLFlags(${NAME})
+	addFGLFlags(${NAME})
 endfunction()

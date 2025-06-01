@@ -165,14 +165,14 @@
 
 				list(APPEND FGL_FLAGS ${FGL_CONFIG})
 				list(APPEND FGL_FLAGS ${FGL_FINAL_FLAGS_${UPPER_BUILD_TYPE}})
-				#				list(APPEND FGL_FLAGS ${FGL_WARNINGS})
+				list(APPEND FGL_FLAGS ${FGL_WARNINGS})
 
 				list(APPEND FGL_CHILD_FLAGS ${FGL_FINAL_FLAGS_${UPPER_BUILD_TYPE}})
 
 				# Final sets
-				#set(FGL_FLAGS "${FGL_CONFIG};${FGL_FINAL_FLAGS_${UPPER_BUILD_TYPE}};${FGL_WARNINGS}") # Flags for our shit
-				#set(FGL_FLAGS "${FGL_OPTIMIZATION_FLAGS_${UPPER_BUILD_TYPE}}" PARENT_SCOPE)
-				#set(FGL_CHILD_FLAGS "${FGL_FINAL_FLAGS_RELEASE}") # Child flags for adding optimization to anything we build ourselves but doesn't follow our standard
+				set(FGL_FLAGS "${FGL_CONFIG};${FGL_FINAL_FLAGS_${UPPER_BUILD_TYPE}};${FGL_WARNINGS}") # Flags for our shit
+				set(FGL_FLAGS "${FGL_OPTIMIZATION_FLAGS_${UPPER_BUILD_TYPE}}" PARENT_SCOPE)
+				set(FGL_CHILD_FLAGS "${FGL_FINAL_FLAGS_RELEASE}") # Child flags for adding optimization to anything we build ourselves but doesn't follow our standard
 				# We use release flags since we really don't need to be using debug flags for anything not ours
 
 				SET_PROPERTY(GLOBAL PROPERTY FGL_FLAGS ${FGL_FLAGS})
@@ -180,7 +180,6 @@
 
 				message("-- FGL_FLAGS: ${FGL_FLAGS}")
 				message("-- FGL_CHILD_FLAGS: ${FGL_CHILD_FLAGS}")
-
 			endif ()
 		endfunction()
 
