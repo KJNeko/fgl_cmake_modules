@@ -156,12 +156,11 @@
 				list(APPEND FGL_SHARED_DEBUG "-gdwarf-4")
 				list(APPEND FGL_SHARED_DEBUG "-fvar-tracking-assignments")
 
-
 				# Optimization flags
-				set(FGL_FINAL_FLAGS_RELEASE "-O2;-s;${FGL_GENERAL_OPTIMIZATION_FLAGS};${FGL_SHARED_OPTIMIZATION_FLAGS}") # System agonistc flags
-				set(FGL_FINAL_FLAGS_RELWITHDEBINFO "-O2;${FGL_GENERAL_OPTIMIZATION_FLAGS};${FGL_SHARED_OPTIMIZATION_FLAGS};${FGL_SHARED_DEBUG}")
-				set(FGL_FINAL_FLAGS_DEBUG "-O0;-g;-fstrict-aliasing;-fno-omit-frame-pointer;-ftrapv;-fverbose-asm;-femit-class-debug-always;${FGL_SHARED_DEBUG}") # Debug flags
-				set(FGL_FINAL_FLAGS_SYSTEM "-O2;-march=native;-fdeclone-ctor-dtor;-fgcse;-fgcse-las;-fgcse-sm;-ftree-loop-im;-fivopts;-ftree-loop-ivcanon;-fira-hoist-pressure;-fsched-pressure;-fsched-spec-load;-fipa-pta;-s;-ffat-lto-objects;-fno-enforce-eh-specs;-fstrict-enums;${FGL_SHARED_OPTIMIZATION_FLAGS}") # System specific flags. Probably not portable
+				set(FGL_FINAL_FLAGS_RELEASE "-O2;-s;${FGL_GENERAL_OPTIMIZATION_FLAGS};${FGL_SHARED_OPTIMIZATION_FLAGS};${FGL_SHARED_FLAGS}") # System agonistc flags
+				set(FGL_FINAL_FLAGS_RELWITHDEBINFO "-O2;${FGL_GENERAL_OPTIMIZATION_FLAGS};${FGL_SHARED_OPTIMIZATION_FLAGS};${FGL_SHARED_DEBUG};${FGL_SHARED_FLAGS}")
+				set(FGL_FINAL_FLAGS_DEBUG "-O0;-g;-fstrict-aliasing;-fno-omit-frame-pointer;-ftrapv;-fverbose-asm;-femit-class-debug-always;${FGL_SHARED_DEBUG};${FGL_SHARED_FLAGS}") # Debug flags
+				set(FGL_FINAL_FLAGS_SYSTEM "-O2;-march=native;-fdeclone-ctor-dtor;-fgcse;-fgcse-las;-fgcse-sm;-ftree-loop-im;-fivopts;-ftree-loop-ivcanon;-fira-hoist-pressure;-fsched-pressure;-fsched-spec-load;-fipa-pta;-s;-ffat-lto-objects;-fno-enforce-eh-specs;-fstrict-enums;${FGL_SHARED_OPTIMIZATION_FLAGS};${FGL_SHARED_FLAGS}") # System specific flags. Probably not portable
 
 				list(APPEND FGL_FLAGS ${FGL_CONFIG})
 				list(APPEND FGL_FLAGS ${FGL_FINAL_FLAGS_${UPPER_BUILD_TYPE}})
