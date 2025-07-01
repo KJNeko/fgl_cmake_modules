@@ -2,6 +2,13 @@
 
 include(helpers)
 
+# If ccache is present, enable it for better compiletimes
+find_program(CCACHE_FOUND ccache)
+if (CCACHE_FOUND AND FGL_USE_CCACHE)
+	message("== CCACHE found, Using it")
+	set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
+endif ()
+
 if ((${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU") OR (${CMAKE_CXX_PLATFORM_ID} STREQUAL "MinGW"))
 	include(compiler/gcc)
 elseif (${CMAKE_CXX_COMPILER_ID} STREQUAL "Clang")
