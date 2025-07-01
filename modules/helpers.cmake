@@ -61,11 +61,6 @@ function(AddFGLLibrary NAME MODE SRC_SOURCES_LOCATION INCLUDE_SOURCES_LOCATION)
 	target_sources(${NAME} PUBLIC ${SOURCES})
 	target_sources(${NAME} PUBLIC FILE_SET modules TYPE CXX_MODULES FILES ${INCLUDE_MODULE_SOURCES})
 
-	message("=== ${NAME} sources ${SOURCES}")
-	message("=== ${NAME} sources ${M_SOURCES}")
-	message("=== ${NAME} sources ${INCLUDE_MODULE_SOURCES}")
-	message("=== ${NAME} sources ${INCLUDE_HPP_SOURCES}")
-
 	ConfigureFGLTarget(${NAME} ${SRC_SOURCES_LOCATION} ${INCLUDE_SOURCES_LOCATION})
 
 	SetFGLFlags(${NAME})
