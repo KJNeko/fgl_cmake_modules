@@ -38,6 +38,7 @@ function(AddFGLExecutable NAME SRC_SOURCES_LOCATION)
 	add_executable(${NAME} ${SOURCES})
 	target_sources(${NAME} PUBLIC ${SOURCES})
 	target_sources(${NAME} PUBLIC FILE_SET modules TYPE CXX_MODULES FILES ${M_SOURCES})
+	target_include_directories(${NAME} PRIVATE ${SRC_SOURCES_LOCATION})
 
 	ConfigureFGLTarget(${NAME} ${SRC_SOURCES_LOCATION} "")
 
@@ -60,6 +61,7 @@ function(AddFGLLibrary NAME MODE SRC_SOURCES_LOCATION INCLUDE_SOURCES_LOCATION)
 	add_library(${NAME} ${MODE})
 	target_sources(${NAME} PUBLIC ${SOURCES})
 	target_sources(${NAME} PUBLIC FILE_SET modules TYPE CXX_MODULES FILES ${INCLUDE_MODULE_SOURCES})
+	target_include_directories(${NAME} PUBLIC ${INCLUDE_SOURCES_LOCATION})
 
 	ConfigureFGLTarget(${NAME} ${SRC_SOURCES_LOCATION} ${INCLUDE_SOURCES_LOCATION})
 
