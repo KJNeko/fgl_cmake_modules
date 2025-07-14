@@ -103,6 +103,9 @@
 				AppendWarningFlag("-Wuse-after-free") #Warns about accessing a value after calling 'free' on it
 				AppendWarningFlag("-Wuseless-cast") #Warns about a cast that is useless.
 
+				AppendWarningFlag("-Wno-non-virtual-dtor")
+
+				AppendWarningFlag("-Wno-terminate") # Disables -Wterminate errors, These are kinda weird and I tend to use throw inside of dtors with the intent of it terminating after. So we'll just silence them.
 
 				# Starting other weird flags
 				AppendWarningFlag("-fdiagnostics-show-template-tree") # Shows the template diagnostic info as a tree instead.
@@ -112,30 +115,29 @@
 
 				string(TOUPPER ${CMAKE_BUILD_TYPE} UPPER_BUILD_TYPE)
 
-				if (NOT DEFINED STATIC_ANAYLSIS)
-					set(STATIC_ANYLSIS 1)
+				if (NOT DEFINED FGL_STATIC_ANALYSIS)
+					set(FGL_STATIC_ANALYSIS 0)
 				endif ()
 
-
-				#				if (STATIC_ANALYSIS EQUAL 1 AND UPPER_BUILD_TYPE STREQUAL "DEBUG")
-				#					list(APPEND FGL_CONFIG "-fanalyzer")
-				#					if (NOT DEFINED USE_WERROR OR NOT USE_WERROR)
-				#						list(APPEND FGL_CONFIG "-Wanalyzer-too-complex")
-				#					endif ()
-				#				elseif (NOT UPPER_BUILD_TYPE STREQUAL "DEBUG")
-				if (NOT UPPER_BUILD_TYPE STREQUAL "DEBUG")
+				if (FGL_STATIC_ANALYSIS EQUAL 1)
+					list(APPEND FGL_CONFIG "-fanalyzer")
+					#					list(APPEND FGL_CONFIG "-Wanalyzer-too-complex")
+					# Breaks more often then it is helpful
+					list(APPEND FGL_CONFIG "-Wno-analyzer-use-of-uninitialized-value")
+					list(APPEND FGL_CONFIG "-Wno-analyzer-malloc-leak")
+				elseif (NOT UPPER_BUILD_TYPE STREQUAL "DEBUG")
 					list(APPEND FGL_CONFIG "-flto=auto")
 				endif ()
 
 				list(APPEND FGL_CONFIG "-ftree-vectorize")
-				list(APPEND FGL_CONFIG "-fmax-errors=6")
+				list(APPEND FGL_CONFIG "-fmax-errors=2")
 				LIST(APPEND FGL_CONFIG "-fmodules-ts")
 				LIST(APPEND FGL_CONFIG "-std=c++23")
 
 				#AppendWarningFlag("-fanalyzer")
 				#AppendWarningFlag("-Wanalyzer-too-complex")
 
-				if (DEFINED USE_WERROR AND USE_WERROR)
+				if (DEFINED FGL_STRICT_WARNINGS AND FGL_STRICT_WARNINGS)
 					list(APPEND FGL_CONFIG "-Werror")
 				endif ()
 
@@ -163,14 +165,14 @@
 
 				list(APPEND FGL_FLAGS ${FGL_CONFIG})
 				list(APPEND FGL_FLAGS ${FGL_FINAL_FLAGS_${UPPER_BUILD_TYPE}})
-				#				list(APPEND FGL_FLAGS ${FGL_WARNINGS})
+				list(APPEND FGL_FLAGS ${FGL_WARNINGS})
 
 				list(APPEND FGL_CHILD_FLAGS ${FGL_FINAL_FLAGS_${UPPER_BUILD_TYPE}})
 
 				# Final sets
-				#set(FGL_FLAGS "${FGL_CONFIG};${FGL_FINAL_FLAGS_${UPPER_BUILD_TYPE}};${FGL_WARNINGS}") # Flags for our shit
-				#set(FGL_FLAGS "${FGL_OPTIMIZATION_FLAGS_${UPPER_BUILD_TYPE}}" PARENT_SCOPE)
-				#set(FGL_CHILD_FLAGS "${FGL_FINAL_FLAGS_RELEASE}") # Child flags for adding optimization to anything we build ourselves but doesn't follow our standard
+				set(FGL_FLAGS "${FGL_CONFIG};${FGL_FINAL_FLAGS_${UPPER_BUILD_TYPE}};${FGL_WARNINGS}") # Flags for our shit
+				set(FGL_FLAGS "${FGL_OPTIMIZATION_FLAGS_${UPPER_BUILD_TYPE}}" PARENT_SCOPE)
+				set(FGL_CHILD_FLAGS "${FGL_FINAL_FLAGS_RELEASE}") # Child flags for adding optimization to anything we build ourselves but doesn't follow our standard
 				# We use release flags since we really don't need to be using debug flags for anything not ours
 
 				SET_PROPERTY(GLOBAL PROPERTY FGL_FLAGS ${FGL_FLAGS})
@@ -178,7 +180,6 @@
 
 				message("-- FGL_FLAGS: ${FGL_FLAGS}")
 				message("-- FGL_CHILD_FLAGS: ${FGL_CHILD_FLAGS}")
-
 			endif ()
 		endfunction()
 
