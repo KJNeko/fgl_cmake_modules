@@ -24,10 +24,13 @@ function(AddFGLExecutable NAME SRC_SOURCES_LOCATION)
 			${SRC_SOURCES_LOCATION}/**.hpp
 	)
 
+	file(GLOB_RECURSE UI_SOURCES CONFIGURE_DEPENDS
+			${SRC_SOURCES_LOCATION}/**.ui)
+
 	message("Compiling ${NAME} WITH ${M_SOURCES} as modules")
 
 	add_executable(${NAME})
-	target_sources(${NAME} PUBLIC ${SOURCES})
+	target_sources(${NAME} PUBLIC ${SOURCES} ${UI_SOURCES})
 	target_sources(${NAME} PUBLIC FILE_SET modules TYPE CXX_MODULES FILES ${M_SOURCES})
 
 	target_include_directories(${NAME} PRIVATE ${SRC_SOURCES_LOCATION})
@@ -35,6 +38,8 @@ function(AddFGLExecutable NAME SRC_SOURCES_LOCATION)
 	set_target_properties(${NAME} PROPERTIES CXX_STANDARD 23)
 	set_target_properties(${NAME} PROPERTIES CXX_STANDARD_REQUIRED ON)
 	SetFGLFlags(${NAME})
+	AddGitInfo(${NAME})
+	target_compile_definitions(${NAME} PRIVATE FGL_BUILD_TYPE="${CMAKE_BUILD_TYPE}")
 endfunction()
 
 function(AddFGLLibrary NAME MODE SRC_SOURCES_LOCATION INCLUDE_SOURCES_LOCATION)
@@ -48,6 +53,8 @@ function(AddFGLLibrary NAME MODE SRC_SOURCES_LOCATION INCLUDE_SOURCES_LOCATION)
 	set_target_properties(${NAME} PROPERTIES CXX_STANDARD 23)
 	set_target_properties(${NAME} PROPERTIES CXX_STANDARD_REQUIRED ON)
 	SetFGLFlags(${NAME})
+	AddGitInfo(${NAME})
+	target_compile_definitions(${NAME} PRIVATE FGL_BUILD_TYPE="${CMAKE_BUILD_TYPE}")
 endfunction()
 
 function(AddFGLModule NAME SRC_SOURCES_LOCATION)
@@ -56,6 +63,8 @@ function(AddFGLModule NAME SRC_SOURCES_LOCATION)
 	add_library(${NAME} MODULE ${CPP_SOURCES} ${HPP_SOURCES})
 	target_include_directories(${NAME} PRIVATE ${SRC_SOURCES_LOCATION})
 	SetFGLFlags(${NAME})
+	AddGitInfo(${NAME})
+	target_compile_definitions(${NAME} PRIVATE FGL_BUILD_TYPE="${CMAKE_BUILD_TYPE}")
 endfunction()
 
 function(AddFGLChildLibrary NAME MODE SRC_SOURCES_LOCATION INCLUDE_SOURCES_LOCATION)

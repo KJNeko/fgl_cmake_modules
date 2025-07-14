@@ -1,6 +1,7 @@
 
 
 include(helpers)
+include(git/commit)
 
 if ((${CMAKE_CXX_COMPILER_ID} STREQUAL "GNU") OR (${CMAKE_CXX_PLATFORM_ID} STREQUAL "MinGW"))
 	include(compiler/gcc)
