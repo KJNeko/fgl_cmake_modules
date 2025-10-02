@@ -131,7 +131,6 @@
 
 				list(APPEND FGL_CONFIG "-ftree-vectorize")
 				list(APPEND FGL_CONFIG "-fmax-errors=2")
-				LIST(APPEND FGL_CONFIG "-fmodules-ts")
 				LIST(APPEND FGL_CONFIG "-std=c++23")
 
 				#AppendWarningFlag("-fanalyzer")
