@@ -8,6 +8,7 @@
 			GET_PROPERTY(FGL_FLAGS GLOBAL PROPERTY FGL_FLAGS)
 			target_compile_options(${TARGET} PUBLIC ${FGL_FLAGS})
 			message("Set target ${TARGET} to use flags\n${FGL_FLAGS}")
+			target_link_options(${TARGET} PUBLIC ${FGL_FLAGS})
 		endfunction()
 
 		function(SetDependencyFlags TARGET)

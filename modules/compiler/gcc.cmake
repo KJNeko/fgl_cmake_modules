@@ -115,6 +115,11 @@
 
 				string(TOUPPER ${CMAKE_BUILD_TYPE} UPPER_BUILD_TYPE)
 
+				if (DEFINED FGL_ENABLE_UBSAN AND FGL_ENABLE_UBSAN EQUAL 1)
+					list(APPEND FGL_CONFIG "-fsanitize=undefined,address,leak,alignment,bounds,vptr")
+#					list(APPEND FGL_CONFIG "-fsanitize-trap")
+				endif ()
+
 				if (NOT DEFINED FGL_STATIC_ANALYSIS)
 					set(FGL_STATIC_ANALYSIS 0)
 				endif ()
