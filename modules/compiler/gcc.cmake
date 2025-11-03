@@ -117,7 +117,7 @@
 
 				if (DEFINED FGL_ENABLE_UBSAN AND FGL_ENABLE_UBSAN EQUAL 1)
 					list(APPEND FGL_CONFIG "-fsanitize=undefined,address,leak,alignment,bounds,vptr")
-#					list(APPEND FGL_CONFIG "-fsanitize-trap")
+					#					list(APPEND FGL_CONFIG "-fsanitize-trap")
 				endif ()
 
 				if (NOT DEFINED FGL_STATIC_ANALYSIS)
@@ -136,7 +136,10 @@
 
 				list(APPEND FGL_CONFIG "-ftree-vectorize")
 				list(APPEND FGL_CONFIG "-fmax-errors=2")
-				LIST(APPEND FGL_CONFIG "-std=c++23")
+				list(APPEND FGL_CONFIG "-std=c++23")
+
+				list(APPEND FGL_CONFIG "-fdata-sections")
+				list(APPEND FGL_CONFIG "-ffunction-sections")
 
 				#AppendWarningFlag("-fanalyzer")
 				#AppendWarningFlag("-Wanalyzer-too-complex")
@@ -160,7 +163,6 @@
 				list(APPEND FGL_SHARED_DEBUG "-gdwarf-4")
 				list(APPEND FGL_SHARED_DEBUG "-fvar-tracking-assignments")
 
-
 				# Optimization flags
 				set(FGL_FINAL_FLAGS_RELEASE "-O2;-s;${FGL_GENERAL_OPTIMIZATION_FLAGS};${FGL_SHARED_OPTIMIZATION_FLAGS}") # System agonistc flags
 				set(FGL_FINAL_FLAGS_RELWITHDEBINFO "-O2;${FGL_GENERAL_OPTIMIZATION_FLAGS};${FGL_SHARED_OPTIMIZATION_FLAGS};${FGL_SHARED_DEBUG}")
@@ -176,8 +178,10 @@
 				# Final sets
 				set(FGL_FLAGS "${FGL_CONFIG};${FGL_FINAL_FLAGS_${UPPER_BUILD_TYPE}};${FGL_WARNINGS}") # Flags for our shit
 				set(FGL_FLAGS "${FGL_OPTIMIZATION_FLAGS_${UPPER_BUILD_TYPE}}" PARENT_SCOPE)
-				set(FGL_CHILD_FLAGS "${FGL_FINAL_FLAGS_RELEASE}") # Child flags for adding optimization to anything we build ourselves but doesn't follow our standard
+				set(FGL_CHILD_FLAGS "${FGL_FINAL_FLAGS_RELEASE}" PARENT_SCOPE) # Child flags for adding optimization to anything we build ourselves but doesn't follow our standard
 				# We use release flags since we really don't need to be using debug flags for anything not ours
+
+				set(FGL_LINK_FLAGS "-Wl,--gcc-sections;-Wl,--print-gc-sections" PARENT_SCOPE)
 
 				SET_PROPERTY(GLOBAL PROPERTY FGL_FLAGS ${FGL_FLAGS})
 				SET_PROPERTY(GLOBAL PROPERTY FGL_CHILD_FLAGS ${FGL_CHILD_FLAGS})
