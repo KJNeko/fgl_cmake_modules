@@ -71,10 +71,6 @@ function(addGitBranchDefine TARGET)
 	target_compile_definitions(${TARGET} PRIVATE FGL_GIT_BRANCH="${GIT_BRANCH}")
 endfunction()
 
-function(addGitTagDefine TARGET)
-	getGitTag(GIT_TAG)
-	target_compile_definitions(${TARGET} PRIVATE FGL_GIT_TAG="${GIT_TAG}")
-endfunction()
 
 function(getIsDirty OUTPUT_VARIABLE)
 	find_package(Git QUIET)
@@ -107,9 +103,12 @@ function(addGitDirtyDefine TARGET)
 	target_compile_definitions(${TARGET} PRIVATE FGL_GIT_IS_DIRTY=1)
 endfunction()
 
+include(modules/git/tag.cmake)
+
 function(AddGitInfo TARGET)
 	addGitCommitDefine(${TARGET})
 	addGitBranchDefine(${TARGET})
 	addGitDirtyDefine(${TARGET})
 	addGitTagDefine(${TARGET})
+	addGitUnsyncedDefine(${TARGET})
 endfunction()
