@@ -1,5 +1,5 @@
 
-
+include(compiler/features)
 include(helpers)
 include(git/commit)
 
@@ -24,7 +24,3 @@ elseif (UNIX)
 else ()
 	message(DEBUG "Unknown Platform")
 endif ()
-
-set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/dependencies" ${CMAKE_MODULE_PATH})
-
-message(DEBUG "Leaving ${CMAKE_CURRENT_LIST_FILE}")

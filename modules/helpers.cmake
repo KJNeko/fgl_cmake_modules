@@ -23,7 +23,7 @@ function(ConfigureFGLTarget NAME SRC_DIR INCLUDE_DIR)
 		target_compile_definitions(${NAME} PUBLIC "-DFGL_STRICT_WARNINGS=1")
 	endif ()
 
-	target_compile_features(${NAME} PUBLIC cxx_std_23)
+	target_compile_features(${NAME} PUBLIC cxx_std_26)
 endfunction()
 
 function(SplitDebugSymbols NAME)

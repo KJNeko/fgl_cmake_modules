@@ -37,7 +37,7 @@ endfunction()
 function(setGitTagVersionDefines TARGET)
 	getGitTagVersion()
 
-	message("Adding targets to ${TARGET}_X_VERSION")
+	message("Adding version info to ${TARGET}")
 
 	target_compile_definitions(${TARGET} PUBLIC
 			${TARGET}_MAJOR_VERSION=${VERSION_MAJOR}

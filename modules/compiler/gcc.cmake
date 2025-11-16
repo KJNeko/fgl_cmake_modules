@@ -136,7 +136,10 @@
 
 				list(APPEND FGL_CONFIG "-ftree-vectorize")
 				list(APPEND FGL_CONFIG "-fmax-errors=2")
-				list(APPEND FGL_CONFIG "-std=c++23")
+
+				if (HAS_CPP_REFLECTION)
+					list(APPEND FGL_CONFIG "-freflection")
+				endif ()
 
 				list(APPEND FGL_CONFIG "-fdata-sections")
 				list(APPEND FGL_CONFIG "-ffunction-sections")
@@ -183,8 +186,10 @@
 
 				set(FGL_LINK_FLAGS "-Wl,--gcc-sections;-Wl,--print-gc-sections" PARENT_SCOPE)
 
-				SET_PROPERTY(GLOBAL PROPERTY FGL_FLAGS ${FGL_FLAGS})
-				SET_PROPERTY(GLOBAL PROPERTY FGL_CHILD_FLAGS ${FGL_CHILD_FLAGS})
+
+				set_property(GLOBAL PROPERTY FGL_COMPILE_FLAGS ${FGL_FLAGS})
+				set_property(GLOBAL PROPERTY FGL_LINK_FLAGS ${FGL_LINK_FLAGS})
+				set_property(GLOBAL PROPERTY FGL_CHILD_FLAGS ${FGL_CHILD_FLAGS})
 
 				message("-- FGL_FLAGS: ${FGL_FLAGS}")
 				message("-- FGL_CHILD_FLAGS: ${FGL_CHILD_FLAGS}")
