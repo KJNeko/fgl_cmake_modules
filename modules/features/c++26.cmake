@@ -1,16 +1,13 @@
 cmake_minimum_required(VERSION 3.26)
-project(TestCXX)
 
-# Default to C++23
-set(STD_VERSION 23)
+include(CheckCXXSourceCompiles)
 
-# Check if the compiler supports C++26
-include(CheckCXXCompilerFlag)
-check_cxx_compiler_flag("-std=c++26" COMPILER_SUPPORTS_CXX26)
-
-if(COMPILER_SUPPORTS_CXX26)
-	set(STD_VERSION 26)
-endif()
-
-add_executable(${PROJECT_NAME} main.cpp)
-target_compile_features(${PROJECT_NAME} PUBLIC cxx_std_${STD_VERSION})
+# Test actual compilation of C++26 code
+set(CMAKE_REQUIRED_FLAGS "-std=c++26")
+check_cxx_source_compiles("
+struct A {
+    auto operator<=>(const A&) const = default; // C++20/26 feature
+};
+int main() { A a,b; return (a <=> b) == 0 ? 0 : 1; }
+" HAS_CXX26)
+set(CMAKE_REQUIRED_FLAGS "")  # reset
