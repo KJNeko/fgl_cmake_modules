@@ -1,6 +1,7 @@
 
-
+include(compiler/features)
 include(helpers)
+include(git/commit)
 
 # If ccache is present, enable it for better compiletimes
 find_program(CCACHE_FOUND ccache)
@@ -30,7 +31,3 @@ elseif (UNIX)
 else ()
 	message(DEBUG "Unknown Platform")
 endif ()
-
-set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/dependencies" ${CMAKE_MODULE_PATH})
-
-message(DEBUG "Leaving ${CMAKE_CURRENT_LIST_FILE}")
