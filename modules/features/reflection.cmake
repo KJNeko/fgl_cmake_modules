@@ -8,7 +8,7 @@ try_compile(HAS_CPP_REFLECTION
 )
 
 if (HAS_CPP_REFLECTION)
-	message(STATUS "Compiler supports C++ reflection")
+	message(STATUS "C++26 Reflection: ON")
 else ()
-	message(STATUS "Compiler does NOT support C++ reflection")
+	message(STATUS "C++26 Reflection: OFF")
 endif ()
