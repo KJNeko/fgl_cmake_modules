@@ -1,5 +1,3 @@
-cmake_minimum_required(VERSION 3.26)
-
 include(CheckCXXSourceCompiles)
 
 # Test actual compilation of C++26 code
@@ -11,3 +9,9 @@ struct A {
 int main() { A a,b; return (a <=> b) == 0 ? 0 : 1; }
 " HAS_CXX26)
 set(CMAKE_REQUIRED_FLAGS "")  # reset
+
+if (HAS_CXX26)
+	message("-- C++26: ON")
+else ()
+	message("-- C++26: OFF")
+endif ()
