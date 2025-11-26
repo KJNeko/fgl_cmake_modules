@@ -8,7 +8,7 @@
 			GET_PROPERTY(FGL_COMPILE_FLAGS GLOBAL PROPERTY FGL_COMPILE_FLAGS)
 			GET_PROPERTY(FGL_LINKS_FLAGS GLOBAL PROPERTY FGL_LINK_FLAGS)
 			target_compile_options(${TARGET} PRIVATE ${FGL_COMPILE_FLAGS})
-			message("Set target ${TARGET} to use flags\n${FGL_COMPILE_FLAGS}")
+			message(DEBUG "Set target ${TARGET} to use flags\n${FGL_COMPILE_FLAGS}")
 			target_link_options(${TARGET} PRIVATE ${FGL_LINK_FLAGS})
 		endfunction()
 
@@ -16,6 +16,6 @@
 			GET_PROPERTY(FGL_CHILD_FLAGS GLOBAL PROPERTY FGL_CHILD_FLAGS)
 			GET_PROPERTY(FGL_LINKS_FLAGS GLOBAL PROPERTY FGL_LINK_FLAGS)
 			target_compile_options(${TARGET} PRIVATE ${FGL_CHILD_FLAGS})
-			message("Set dependency ${TARGET} to use flags\n${FGL_CHILD_FLAGS}")
+			message(DEBUG "Set dependency ${TARGET} to use flags\n${FGL_CHILD_FLAGS}")
 			target_link_options(${TARGET} PRIVATE ${FGL_LINK_FLAGS})
 		endfunction()
