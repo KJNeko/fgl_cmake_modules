@@ -23,6 +23,10 @@ function(ConfigureFGLTarget NAME SRC_DIR INCLUDE_DIR)
 		target_compile_definitions(${NAME} PUBLIC "-DFGL_STRICT_WARNINGS=1")
 	endif ()
 
+	if (DEFINED FGL_ENABLE_UBSAN AND FGL_ENABLE_UBSAN)
+		target_link_libraries(${NAME} PRIVATE asan ubsan)
+	endif ()
+
 	if (CMAKE_CXX_STANDARD STREQUAL 26)
 		message("Setting target ${NAME} to c++26")
 		target_compile_features(${NAME} PUBLIC cxx_std_26)
